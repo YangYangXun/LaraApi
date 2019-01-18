@@ -15,10 +15,11 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = Article::find($id);
-        // if (!$article) {
-        //     return response()->json(['message' => 'resource not exist']);
-        // }
-        return $article;
+        if (!$article) {
+            return response()->json(['message' => 'resource not exist']);
+        }
+        // return $article;
+        return response()->json(['auther' => 'me', 'attribute' => $article]);
     }
 
     public function store(Request $request)
@@ -29,9 +30,14 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $article = Article::findOrFail($id);
-        $article->update($request->all());
+        $result = $article->update($request->all());
 
-        return $article;
+        if (!$result) {
+            return response()->json(['status' => 'update fail', 'message' => 'Atricle not found'], 404);
+        }
+
+        return response()->json(['status' => 'update success', 'attribute' => $article]);
+
     }
 
     public function delete(Request $request, $id)
