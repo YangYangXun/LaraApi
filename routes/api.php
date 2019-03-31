@@ -29,3 +29,9 @@ Route::delete('articles/{id}', 'ArticleController@delete');
 
 // register use
 Route::post('register', 'Auth\RegisterController@register');
+
+// Route::post('json/post', function () {
+//     return request();
+// });
+
+Route::post('json/post', 'PostController@index');
